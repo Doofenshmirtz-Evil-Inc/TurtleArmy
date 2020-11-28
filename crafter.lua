@@ -1,0 +1,1 @@
+if turtle.getItemCount([1])
