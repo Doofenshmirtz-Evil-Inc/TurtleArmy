@@ -30,8 +30,8 @@ function placeQuarry()
     -- dumps trash
     turtle.select(11)
     if turtle.getItemCount() > 0 then
-        for i=0, 6 do
-            turtle.select(11+i)
+        for i=1, 6 do
+            turtle.select(10+i)
             turtle.dropUp()
         turtle.select(7)
         turtle.dropUp()
@@ -113,7 +113,14 @@ while true do
         turtle.place()
         turtle.select(6)
         neededItems = 64 - turtle.getItemCount()
-        turtle.suck(neededItems)
+        if turtle.suck(neededItems) == false then
+            x=0
+            repeat
+                if turtle.suck(neededItems) == true then
+                    x = 1
+                end
+            until (x == 1)
+        end
         turtle.select(2)
         turtle.dig()
         turtle.turnLeft()
@@ -132,7 +139,14 @@ while true do
         turtle.place()
         turtle.select(8)
         neededItems = 64 - turtle.getItemCount()
-        turtle.suck(neededItems)
+        if turtle.suck(neededItems) == false then
+            x=0
+            repeat
+                if turtle.suck(neededItems) == true then
+                    x = 1
+                end
+            until (x == 1)
+        end
         turtle.select(4)
         turtle.dig()
         turtle.turnLeft()

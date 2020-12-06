@@ -11,14 +11,14 @@ function depositItems()
     turtle.select(1)
     turtle.place()
     turtle.select(5)
-    turtle.drop()
+    turtle.drop(turtle.getItemCount()-1)
     turtle.select(1)
     turtle.dig()
     --deposits quarry()
     turtle.select(2)
     turtle.place()
     turtle.select(6)
-    turtle.drop()
+    turtle.drop(turtle.getItemCount()-1)
     turtle.select(2)
     turtle.dig()
 
@@ -117,7 +117,6 @@ while true do
     --checks if turt needs blocks
     turtle.select(8)
     if turtle.getItemCount() < 10 then
-        turtle.turnRight()
         while turtle.detect() do
             turtle.select(10)
             turtle.dig()
@@ -129,7 +128,6 @@ while true do
         turtle.suck(neededItems)
         turtle.select(4)
         turtle.dig()
-        turtle.turnLeft()
     end
 
     -- Right Quarry
@@ -147,19 +145,48 @@ while true do
     end
     turtle.select(8)
     turtle.place()
-    turtle.turnLeft()
-    turtle.turnLeft()
-    turtle.turnLeft()
-    turtle.turnLeft()
+
+    -- spin x times
+    for i=1, 5 do
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.turnLeft()
+    end
+
     if turtle.detect() == false then
         --keep checking until quarry done
         x = 0
         repeat
-            turtle.place()
-            turtle.turnLeft()
-            turtle.turnLeft()
-            turtle.turnLeft()
-            turtle.turnLeft()
+            if turtle.place() == false then
+                turtle.turnLeft()
+                turtle.turnLeft()
+                turtle.select(8)
+                if turtle.getItemCount() < 10 then
+                    while turtle.detect() do
+                        turtle.select(10)
+                        turtle.dig()
+                    end
+                    turtle.select(4)
+                    turtle.place()
+                    turtle.select(8)
+                    neededItems = 64 - turtle.getItemCount()
+                    turtle.suck(neededItems)
+                    turtle.select(4)
+                    turtle.dig()
+                end
+                turtle.turnRight()
+                turtle.turnRight()
+            end    
+
+            -- spin x times
+            for i=1, 5 do
+                turtle.turnLeft()
+                turtle.turnLeft()
+                turtle.turnLeft()
+                turtle.turnLeft()
+            end
+
             if turtle.detect() == true then
                 x = 1
             end
