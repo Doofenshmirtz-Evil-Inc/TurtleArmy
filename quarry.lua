@@ -5,11 +5,12 @@
 -- Slot 3 = Fuel Ender Chest
 -- Slot 4 = Ender Chest for Quarry Items Ender Chest
 -- Slot 9 = Block Ender Chest
+-- Slot 11 = 3 or more Chunk Loaders
 
 function placeQuarry()
     turtle.turnRight()
     while turtle.detect() do
-        turtle.select(11)
+        turtle.select(12)
         turtle.dig()
     end     
     turtle.forward()
@@ -30,8 +31,8 @@ function placeQuarry()
     -- dumps trash
     turtle.select(11)
     if turtle.getItemCount() > 0 then
-        for i=1, 6 do
-            turtle.select(10+i)
+        for i=1, 5 do
+            turtle.select(11+i)
             turtle.dropUp()
         turtle.select(7)
         turtle.dropUp()
@@ -42,6 +43,12 @@ function placeQuarry()
     -- place quarry
     turtle.select(6) --select quarry
     turtle.place()
+
+    --grab chunk loader
+    turtle.turnRight()
+    turtle.turnRight()
+    turtle.select(11)
+    turtle.dig()
 end
 
 function placePipe()
@@ -50,7 +57,7 @@ function placePipe()
         turtle.turnRight()
         turtle.turnRight()
         while turtle.detect() do
-            turtle.select(11)
+            turtle.select(12)
             turtle.dig()
         end
         turtle.turnRight()
@@ -61,13 +68,60 @@ function placePipe()
     end
 end
 
+function fowardNum(blocks)
+    for i=1, blocks do
+        while turtle.detect() do
+            turtle.select(12)
+            turtle.dig()
+        end
+        turtle.forward()
+    end
+end
+
+-- checks for refuel
+if turtle.getFuelLevel() < 500 then
+    while turtle.detect() do
+        turtle.select(12)
+        turtle.dig()
+    end
+    turtle.select(3)
+    turtle.place()
+    turtle.select(7)        
+    neededItems = 64 - turtle.getItemCount()
+    turtle.suck(neededItems)
+    turtle.refuel()
+    turtle.select(3)
+    turtle.dig()
+else
+end
+
+--palce chunk loaders
+turtle.turnLeft()
+while turtle.detect() do
+    turtle.select(12)
+    turtle.dig()
+end
+turtle.select(11)
+turtle.place()
+turtle.turnRight()
+fowardNum(6)
+turtle.turnRight()
+while turtle.detect() do
+    turtle.select(12)
+    turtle.dig()
+end
+turtle.select(11)
+turtle.place()
+turtle.turnRight()
+fowardNum(6)
+turtle.turnRight()
+turtle.turnRight()
 
 while true do
     -- checks for refuel
     if turtle.getFuelLevel() < 500 then
-        turtle.turnRight()
         while turtle.detect() do
-            turtle.select(11)
+            turtle.select(12)
             turtle.dig()
         end
         turtle.select(3)
@@ -78,16 +132,14 @@ while true do
         turtle.refuel()
         turtle.select(3)
         turtle.dig()
-        turtle.turnLeft()
     else
     end
 
     -- check if turt needs pipes
     turtle.select(5)
     if turtle.getItemCount() < 20 then
-        turtle.turnRight()
         while turtle.detect() do
-            turtle.select(11)
+            turtle.select(12)
             turtle.dig()
         end
         turtle.select(1)
@@ -97,16 +149,14 @@ while true do
         turtle.suck(neededItems)
         turtle.select(1)
         turtle.dig()
-        turtle.turnLeft()
     else
     end
 
     -- check if turt needs quarries
     turtle.select(6)
     if turtle.getItemCount() < 3 then
-        turtle.turnRight()
         while turtle.detect() do
-            turtle.select(11)
+            turtle.select(12)
             turtle.dig()
         end
         turtle.select(2)
@@ -123,16 +173,14 @@ while true do
         end
         turtle.select(2)
         turtle.dig()
-        turtle.turnLeft()
     else
     end
 
     -- check if turt needs chests
     turtle.select(8)
     if turtle.getItemCount() < 3 then
-        turtle.turnRight()
         while turtle.detect() do
-            turtle.select(11)
+            turtle.select(12)
             turtle.dig()
         end
         turtle.select(4)
@@ -149,16 +197,14 @@ while true do
         end
         turtle.select(4)
         turtle.dig()
-        turtle.turnLeft()
     else
     end
 
     --checks if turt needs blocks
     turtle.select(10)
     if turtle.getItemCount() < 10 then
-        turtle.turnRight()
         while turtle.detect() do
-            turtle.select(11)
+            turtle.select(12)
             turtle.dig()
         end
         turtle.select(9)
@@ -168,22 +214,50 @@ while true do
         turtle.suck(neededItems)
         turtle.select(9)
         turtle.dig()
-        turtle.turnLeft()
     end
 
     -- Place Right Side
     placeQuarry()
-    turtle.turnRight()
+    turtle.turnLeft()
 
     -- Place Pipes
     placePipe()
 
+    --place next chunkloader
+    turtle.turnLeft()
+    turtle.turnLeft()
+    fowardNum(6)
+    turtle.turnLeft()
+    while turtle.detect() do
+        turtle.select(12)
+        turtle.dig()
+    end
+    turtle.select(11)
+    turtle.place()
+    turtle.turnLeft()
+    fowardNum(6)
+    
     --Place Left Side
     placeQuarry()
-    turtle.turnLeft()
+    turtle.turnRight()
    
     -- Place Pipes
     placePipe()
+
+    --place next chunkloader
+    turtle.turnLeft()
+    turtle.turnLeft()
+    fowardNum(6)
+    turtle.turnRight()
+    while turtle.detect() do
+        turtle.select(12)
+        turtle.dig()
+    end
+    turtle.select(11)
+    turtle.place()
+    turtle.turnRight()
+    fowardNum(6)
+
 
     turtle.turnLeft()
     turtle.turnLeft()

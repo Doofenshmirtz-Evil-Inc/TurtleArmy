@@ -133,6 +133,14 @@ while true do
     -- Right Quarry
     -- Check if quarry is done
     turtle.turnRight()
+    if turtle.detect() == false then
+        x = 0 
+        repeat
+            if turtle.detect() == true then
+                x = 1
+            end
+        until (x==1)
+    end
     turtle.turnRight()
     fowardNum(1)
     turtle.turnLeft()
@@ -238,10 +246,21 @@ while true do
     turtle.place()
     turtle.turnRight()
     turtle.down()
-    fowardNum(7)
+    fowardNum(6)
     
 
     -- Left Quarry
+    turtle.turnRight()
+    if turtle.detect() == false then
+        x = 0 
+        repeat
+            if turtle.detect() == true then
+                x = 1
+            end
+        until (x==1)
+    end
+    turtle.turnLeft()
+    turtle.forward()
     turtle.turnRight()
     fowardNum(1)
     downNum(2)
@@ -318,4 +337,5 @@ while true do
     fowardNum(6)
     turtle.turnRight()
     turtle.turnRight()
+    
 end
